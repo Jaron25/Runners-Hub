@@ -33,7 +33,8 @@
       { icon: 'fab fa-x-twitter', label: 'X', url: 'https://x.com/' },
       { icon: 'fab fa-discord', label: 'Discord', url: 'https://discord.com/' },
       { icon: 'fab fa-instagram', label: 'Instagram', url: 'https://www.instagram.com' },
-      { icon: 'fab fa-youtube', label: 'YouTube', url: 'https://www.youtube.com' }
+      { icon: 'fab fa-youtube', label: 'YouTube', url: 'https://www.youtube.com' },
+      { icon: 'fab fa-slack', label: 'Slack', url: 'https://app.slack.com/client/T06AT75R7LL/D0A41K9BQRZ' }
     ]
   };
 
