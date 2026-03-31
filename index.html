@@ -13,11 +13,36 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- BOOT SCREEN -->
+  <div id="boot-screen" class="boot-screen" aria-hidden="true">
+    <div class="boot-scanlines"></div>
+    <div class="boot-content">
+      <div class="boot-logo-wrap">
+        <div class="boot-corner boot-corner-tl"></div>
+        <div class="boot-corner boot-corner-tr"></div>
+        <div class="boot-corner boot-corner-bl"></div>
+        <div class="boot-corner boot-corner-br"></div>
+        <div class="boot-glow-ring"></div>
+        <div class="boot-title" id="boot-title">RUNNERS HUB</div>
+      </div>
+      <div class="boot-subtitle" id="boot-subtitle"></div>
+      <div class="boot-bar-wrap">
+        <div class="boot-bar" id="boot-bar"></div>
+      </div>
+      <div class="boot-status" id="boot-status">INITIALIZING...</div>
+    </div>
+  </div>
+
   <div class="overlay"></div>
 
   <nav class="top-nav">
-    <div id="date-display" class="date-display">---, --- --</div>
-    <button id="menu-btn" class="menu-btn" aria-label="Menu">
+    <div class="nav-left">
+      <div id="date-display" class="date-display">
+        <span id="date-text" class="date-text">---, --- --</span>
+        <span id="date-weather" class="date-weather">--°F</span>
+      </div>
+    </div>
+    <button id="menu-btn" class="menu-btn" aria-label="Menu" aria-expanded="false">
       <span class="stairs-icon"></span>
     </button>
     <div id="menu-dropdown" class="menu-dropdown" hidden></div>
@@ -27,15 +52,12 @@
     <section class="hero">
       <div class="title-center">
         <h1>Runners Hub</h1>
-        <div id="time-greeting" class="time">--:--:--</div>
+        <div class="time-row">
+          <div id="time-greeting" class="time">--:--:--</div>
+        </div>
       </div>
 
-      <div class="category-buttons">
-        <button class="category-btn" data-section="personal">Theater</button>
-        <button class="category-btn" data-section="streaming">Streaming</button>
-        <button class="category-btn" data-section="work">Work</button>
-        <button class="category-btn" data-section="social">Social</button>
-      </div>
+      <div class="category-buttons" id="category-buttons"></div>
 
       <div class="search-area">
         <form id="search-form">
@@ -49,28 +71,164 @@
       </div>
 
       <div class="notes-widget">
-        <button id="notes-toggle" class="notes-toggle-btn">
-          <span>Notes</span>
+        <button id="notes-toggle" class="notes-toggle-btn" type="button">
+          <span>Notes / To Do</span>
           <i class="fas fa-chevron-down"></i>
         </button>
         <div id="notes-content" class="notes-content" hidden>
-          <textarea id="notes" placeholder="Write notes here..."></textarea>
-          <div class="notes-actions">
-            <button id="save-notes" class="btn">Save</button>
-            <button id="notes-voice-btn" class="btn notes-voice-btn" type="button" title="Voice dictation for notes">
-              <i class="fas fa-microphone"></i>
-              <span>Voice</span>
-            </button>
+          <div class="notes-tabs" role="tablist" aria-label="Notes and To Do tabs">
+            <button id="notes-tab-btn" class="notes-tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="notes-panel">Notes</button>
+            <button id="todo-tab-btn" class="notes-tab-btn" type="button" role="tab" aria-selected="false" aria-controls="todo-panel">To Do</button>
+          </div>
+
+          <div id="notes-panel" class="notes-panel" role="tabpanel">
+            <textarea id="notes" placeholder="Write a note..."></textarea>
+            <div class="notes-actions">
+              <button id="save-notes-text" class="btn" type="button">Save</button>
+              <button id="notes-voice-btn" class="btn notes-voice-btn" type="button" title="Voice dictation for notes">
+                <i class="fas fa-microphone"></i>
+                <span>Voice</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="todo-panel" class="todo-panel" role="tabpanel" hidden>
+            <form id="todo-form" class="todo-form">
+              <input id="todo-input" type="text" placeholder="Add a task..." aria-label="Add a task">
+               <button id="todo-voice-btn" class="btn todo-voice-btn" type="button" aria-label="Voice dictation for to do" title="Voice dictation for to do">
+                 <i class="fas fa-microphone" aria-hidden="true"></i>
+                 <span>Voice</span>
+               </button>
+              <button type="submit" class="btn">Add</button>
+            </form>
+            <ul id="todo-list" class="todo-list"></ul>
           </div>
         </div>
       </div>
+
     </section>
 
   </main>
 
   <footer class="page-footer">
     <div class="bottom-right">
-      <button id="theme-toggle" aria-pressed="false" class="btn small">Toggle Theme</button>
+      <div class="settings-wrap">
+        <button id="settings-toggle" aria-expanded="false" aria-controls="settings-panel" class="btn small settings-btn" type="button">Settings</button>
+        <div id="settings-backdrop" class="settings-backdrop" hidden></div>
+        <div id="settings-panel" class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settings-heading" hidden>
+          <div class="settings-header">
+            <h2 id="settings-heading">Settings</h2>
+            <button id="settings-close" class="settings-close" type="button" aria-label="Close settings">
+              <span class="settings-close-text" aria-hidden="true">X</span>
+            </button>
+          </div>
+
+          <section class="settings-section">
+            <div class="settings-title">Appearance</div>
+            <div class="theme-grid" role="group" aria-label="Theme selector">
+              <button class="theme-option" type="button" data-theme="neon" aria-pressed="false" title="Neon">
+                <span class="theme-swatch"></span>
+                <span>Neon</span>
+              </button>
+              <button class="theme-option" type="button" data-theme="calm" aria-pressed="false" title="Calm">
+                <span class="theme-swatch"></span>
+                <span>Calm</span>
+              </button>
+              <button class="theme-option" type="button" data-theme="purple" aria-pressed="false" title="Purple">
+                <span class="theme-swatch"></span>
+                <span>Purple</span>
+              </button>
+              <button class="theme-option" type="button" data-theme="purplefull" aria-pressed="false" title="Purple Full">
+                <span class="theme-swatch"></span>
+                <span>Purple Full</span>
+              </button>
+              <button class="theme-option" type="button" data-theme="green" aria-pressed="false" title="Cool Green">
+                <span class="theme-swatch"></span>
+                <span>Cool Green</span>
+              </button>
+              <button class="theme-option" type="button" data-theme="whitechill" aria-pressed="false" title="Chill White">
+                <span class="theme-swatch"></span>
+                <span>Chill White</span>
+              </button>
+
+              <button class="theme-option" type="button" data-theme="goodpink" aria-pressed="false" title="Good Pink">
+                <span class="theme-swatch"></span>
+                <span>Good Pink</span>
+              </button>
+
+              <button class="theme-option" type="button" data-theme="goodnight" aria-pressed="false" title="Good Night Cherry Red">
+                <span class="theme-swatch"></span>
+                <span>Good Night Cherry Red</span>
+              </button>
+
+            </div>
+          </section>
+
+          <section class="settings-section">
+            <div class="settings-title">Backgrounds</div>
+            <form id="bg-upload-form" class="settings-form">
+              <input id="bg-name-input" type="text" placeholder="Background name" maxlength="40" required>
+              <input id="bg-file-input" type="file" accept="image/*" required>
+              <button class="btn small" type="submit">Add to Gallery</button>
+            </form>
+            <div id="bg-feedback" class="custom-link-feedback" aria-live="polite"></div>
+            <div id="bg-gallery" class="bg-gallery"></div>
+          </section>
+
+          <section class="settings-section">
+            <div class="settings-title">Website Name</div>
+            <form id="site-name-form" class="settings-form">
+              <input id="site-name-input" type="text" placeholder="Website name" maxlength="32" required>
+              <button class="btn small" type="submit">Save Name</button>
+              <button class="btn small" type="button" id="reset-site-name">Reset Name</button>
+            </form>
+            <div id="site-name-feedback" class="custom-link-feedback" aria-live="polite"></div>
+          </section>
+
+          <section class="settings-section">
+            <div class="settings-title">Main Tabs</div>
+            <div id="tab-settings-feedback" class="custom-link-feedback" aria-live="polite"></div>
+            <div id="tab-settings-list" class="tab-settings-list"></div>
+          </section>
+
+          <section class="settings-section">
+            <div class="settings-title">Add Tab <span style="text-transform:none;font-size:0.7em;opacity:0.7">(max 6)</span></div>
+            <form id="add-tab-form" class="settings-form">
+              <input id="add-tab-name" type="text" placeholder="Tab name" maxlength="20" required>
+              <button class="btn small" type="submit">Add Tab</button>
+            </form>
+            <div id="add-tab-feedback" class="custom-link-feedback" aria-live="polite"></div>
+          </section>
+
+          <section class="settings-section">
+            <div class="settings-title">Add Link</div>
+            <form id="custom-link-form" class="settings-form">
+              <input id="custom-link-name" type="text" placeholder="Link name" maxlength="50" required>
+              <input id="custom-link-url" type="text" placeholder="https://example.com" required>
+              <select id="custom-link-category" required>
+                <option value="personal">Theater</option>
+                <option value="streaming">Streaming</option>
+                <option value="work">Work</option>
+                <option value="social">Social</option>
+              </select>
+              <button class="btn small" type="submit">Add Link</button>
+            </form>
+            <div id="custom-link-feedback" class="custom-link-feedback" aria-live="polite"></div>
+          </section>
+
+          <section class="settings-section">
+            <div class="settings-title">Manage Main Links</div>
+            <div id="default-link-feedback" class="custom-link-feedback" aria-live="polite"></div>
+            <ul id="default-link-list" class="custom-link-list"></ul>
+            <button id="reset-default-links" class="btn small secondary-btn" type="button">Reset Main Links</button>
+          </section>
+
+          <section class="settings-section">
+            <div class="settings-title">Manage Custom Links</div>
+            <ul id="custom-link-list" class="custom-link-list"></ul>
+          </section>
+        </div>
+      </div>
     </div>
   </footer>
 
